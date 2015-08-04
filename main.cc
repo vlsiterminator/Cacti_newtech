@@ -11,7 +11,6 @@ using namespace std;
 #define endl '\n'
 int main(int argc,char *argv[])
 {
-/*
   uca_org_t result;
   if (argc != 55)
   {
@@ -106,6 +105,7 @@ int main(int argc,char *argv[])
   Area cell;
   cell.set_w(1.04);
   cell.set_h(0.36);
+  importdata();
   Decoder * row_dec = new Decoder(
       num_dec_signals,
       false,
@@ -127,7 +127,8 @@ int main(int argc,char *argv[])
   }
   cout << "Total delay = \t\t" << row_dec->delay << endl;
   cout << "Total power = \t\t" << row_dec->power.readOp.dynamic << endl;
-  */
+
+  /*
   //InputParameter * g_ip;
   g_ip=new InputParameter();
   g_ip->parse_cfg("cache.cfg");
@@ -188,4 +189,5 @@ int main(int argc,char *argv[])
   cout<<"Dynamic Row Decoders energy per mat is " << new_uca->bank.mat.power_row_decoders.readOp.dynamic <<endl;
   //The pre decoder is shared in one mat.
   cout<<"Dynamic Row pre-Decoders energy per mat is " << new_uca->bank.mat.r_predec->power.readOp.dynamic <<endl;
+  */
 }

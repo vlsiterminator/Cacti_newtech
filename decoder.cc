@@ -49,6 +49,7 @@
 using namespace std;
 
 
+//OtherTech  g_ot;
 Decoder::Decoder(
     int    _num_dec_signals,
     bool   flag_way_select,
@@ -211,6 +212,12 @@ double Decoder::compute_delays(double inrisetime)
     tf = rd * (c_intrinsic + c_load);
     //For observing risetime in each stage. Added temporarily by Ningxi.
     tmp_risetime[0]=inrisetime;
+    if(g_ot.othertech_en) {
+      cout << "delay from othertech" <<endl;
+      getdelay(3.0e-7,1.0e-12,1.0e-15);
+
+    } else {
+    }
     this_delay = horowitz(inrisetime, tf, 0.5, 0.5, RISE);
     //For observing delay in each stage. Added temporarily by Ningxi.
     tmp_delay[0]=this_delay;

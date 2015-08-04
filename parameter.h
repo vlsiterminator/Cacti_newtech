@@ -11,8 +11,8 @@
  *
  * Users of this software agree to the terms and conditions set forth herein, and
  * hereby grant back to Hewlett-Packard Company and its affiliated companies ("HP")
- * a non-exclusive, unrestricted, royalty-free right and license under any changes, 
- * enhancements or extensions  made to the core functions of the software, including 
+ * a non-exclusive, unrestricted, royalty-free right and license under any changes,
+ * enhancements or extensions  made to the core functions of the software, including
  * but not limited to those affording compatibility with other hardware or software
  * environments, but excluding applications which incorporate this software.
  * Users further agree to use their best efforts to return to HP any such changes,
@@ -31,7 +31,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS" AND HP DISCLAIMS ALL
  * WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES
- * OF MERCHANTABILITY AND FITNESS.   IN NO EVENT SHALL HP 
+ * OF MERCHANTABILITY AND FITNESS.   IN NO EVENT SHALL HP
  * CORPORATION BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
  * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
  * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
@@ -46,6 +46,7 @@
 #include "const.h"
 #include "cacti_interface.h"
 #include "io.h"
+#include <unordered_map>
 
 
 // parameters which are functions of certain device technology
@@ -75,7 +76,7 @@ class TechnologyParameter
     double n_to_p_eff_curr_drv_ratio;
 
     DeviceType(): C_g_ideal(0), C_fringe(0), C_overlap(0), C_junc(0),
-                  C_junc_sidewall(0), l_phy(0), l_elec(0), R_nch_on(0), R_pch_on(0), 
+                  C_junc_sidewall(0), l_phy(0), l_elec(0), R_nch_on(0), R_pch_on(0),
                   Vdd(0), Vth(0),
                   I_on_n(0), I_on_p(0), I_off_n(0), I_off_p(0),
                   C_ox(0), t_ox(0), n_to_p_eff_curr_drv_ratio(0) { };
@@ -202,7 +203,7 @@ class TechnologyParameter
   double vert_dielectric_constant;
   double aspect_ratio;
   double miller_value;
- 
+
   MemoryType sram;
   MemoryType dram;
 
@@ -244,8 +245,8 @@ class DynamicParameter
     double Nspd;
     int Ndwl;
     int Ndbl;
-    int deg_bl_muxing; 
-    int deg_senseamp_muxing_non_associativity; 
+    int deg_bl_muxing;
+    int deg_senseamp_muxing_non_associativity;
     int Ndsam_lev_1;
     int Ndsam_lev_2;
     int number_addr_bits_mat;             // per port
@@ -289,10 +290,41 @@ class DynamicParameter
     bool   is_valid;
 };
 
+//struct FloatArray {
+//  FloatArray(float in[3]) {memcpy(data,in,3);}
+//  float& operator[](unsigned int idx) {return data[idx];}
+//  float data[3];
+//};
+void importdata();
+float getdelay(float width, float rftime, float cap);
+float getrftime(float width, float rftime, float cap);
+float getenergy(float width, float rftime, float cap);
+unsigned int inputadjust(float, unsigned int, unsigned int, unsigned int);
+class OtherTech {
+  public:
+  OtherTech();
+  typedef std::unordered_map<unsigned long int, std::unordered_map<unsigned long int, std::unordered_map<unsigned long int,float > > > techtable;
+  techtable ifs_energy;
+  techtable ifs_delay;
+  techtable ifs_rftime;
 
+  bool othertech_en;
+  float gatecap_per_um;
+  float wirecap_per_um;
+  float width_max;
+  float width_min;
+  float cap_max;
+  float cap_min;
+  float rftime_max;
+  float rftime_min;
+  float outdelay;
+  float outenergy;
+  float outrftime;
+};
 
 extern InputParameter * g_ip;
 extern TechnologyParameter g_tp;
+extern OtherTech  g_ot;
 
 #endif
 
